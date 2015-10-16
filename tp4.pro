@@ -1,15 +1,20 @@
 QMAKE_MAC_SDK = macosx10.11
 
-QMAKE_CXXFLAGS += -stdlib=libc++ -std=c++11
+
+#QMAKE_CXXFLAGS += -fopenmp
+#QMAKE_LFLAGS += -fopenmp
+
+CONFIG += c++11
 
 INCLUDEPATH += /opt/local/include
-LIBS += -stdlib=libc++
 
 SOURCES += $$PWD/openglwindow.cpp \
     main.cpp \
-    trianglewindow.cpp
+    trianglewindow.cpp \
+    filemanager.cpp
 HEADERS += $$PWD/openglwindow.h \
-    trianglewindow.h
+    trianglewindow.h \
+    filemanager.h
 
 target.path = .
 

@@ -2,6 +2,10 @@
 #define TRIANGLEWINDOW_H
 
 #include "openglwindow.h"
+#include "filemanager.h"
+#include <QString>
+
+class FileManager;
 
 struct point
 {
@@ -17,6 +21,12 @@ public:
     float anim = 0.0f;
 
     int etat = 0;
+
+    QString* toSave();
+
+
+
+
 };
 
 class TriangleWindow : public OpenGLWindow
@@ -47,6 +57,9 @@ public:
 
     void setSeason(int );
 
+    QString* toSave();
+
+
 public slots:
     void updateSeason();
 
@@ -54,9 +67,10 @@ private:
     int nbTick = 0;
     int m_frame = 0;
     int season, day;
-    point* particules;
+
     bool master = false;
 
+    point* particules;
     QImage m_image;
     point *p;
     int carte=1;

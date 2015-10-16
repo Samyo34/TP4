@@ -67,6 +67,13 @@ void TriangleWindow::setSeason(int i)
     else if (i==3) day = 350;
 }
 
+QString *TriangleWindow::toSave()
+{
+    QString st="";
+    st+=this->c->toSave();
+    st+=this->
+}
+
 void TriangleWindow::updateSeason()
 {
     day = (day + 1) % 365;
@@ -112,8 +119,8 @@ void TriangleWindow::initialize()
                        )/360
                       )*dist;
 
-        particules[i].x = 0.5f + (float)+x/(m_image.width()) - ((float)m_image.width()/2.0)/m_image.width();
-        particules[i].y = 0.5f + (float)y/(m_image.height()) - ((float)m_image.height()/2.0)/m_image.height();
+        particules[i].x = 0.5f;
+        particules[i].y = 0.5f;
         particules[i].z = (float)(alt)/100;
     }
 
@@ -216,10 +223,10 @@ void TriangleWindow::render()
             displayPoints();
             break;
     }
-    if (season == 2)
+    /*if (season == 2)
         updateParticlesAut();
     else if (season == 3)
-        updateParticlesHiv();
+        updateParticlesHiv();*/
 
     m_frame++;
 
@@ -599,6 +606,9 @@ void TriangleWindow::updateParticlesAut()
         {
             particules[id].z -= 0.0003f * ((float) minP + (rand() % (int)(maxP - minP + 1)));
             id2 = (particules[id].x)*m_image.width() + particules[id].y;
+            if(id2<0){
+                id2 = 0;
+            }
             if(particules[id].z < p[id2].z)
             {
                 int angle =minP + (rand() % (int)(maxP - minP + 1));
@@ -615,8 +625,8 @@ void TriangleWindow::updateParticlesAut()
                                )/360
                               )*dist;
 
-                particules[id].x = 0.5f + (float)+x/(m_image.width()) - ((float)m_image.width()/2.0)/m_image.width();
-                particules[id].y = 0.5f + (float)y/(m_image.height()) - ((float)m_image.height()/2.0)/m_image.height();
+                particules[id].x = 0.5f;
+                particules[id].y = 0.5f;
                 particules[id].z = (float)(alt)/100;
 
             }
@@ -648,6 +658,9 @@ void TriangleWindow::updateParticlesHiv()
         {
             particules[id].z -= 0.00001f * ((float) minP + (rand() % (int)(maxP - minP + 1)));
             id2 = (particules[id].x)*m_image.width() + particules[id].y;
+            if(id2 < 0){
+                id2 =0;
+            }
             if(particules[id].z < p[id2].z)
             {
                 int angle =minP + (rand() % (int)(maxP - minP + 1));
@@ -664,8 +677,8 @@ void TriangleWindow::updateParticlesHiv()
                                )/360
                               )*dist;
 
-                particules[id].x = 0.5f + (float)+x/(m_image.width()) - ((float)m_image.width()/2.0)/m_image.width();
-                particules[id].y = 0.5f + (float)y/(m_image.height()) - ((float)m_image.height()/2.0)/m_image.height();
+                particules[id].x = 0.5f;
+                particules[id].y = 0.5f;
                 particules[id].z = (float)(alt)/100;
             }
         }
@@ -683,4 +696,23 @@ void TriangleWindow::updateParticlesHiv()
 
     }
     glEnd();
+}
+
+
+QString *paramCamera::toSave()
+{
+    QString st="";
+    st+=this->anim;
+    st+=";";
+    st+=this->etat;
+    st+=";";
+    st+=this->rotX;
+    st+=";";
+    st+=this->rotY;
+    st+=";";
+    st+=this->ss;
+    st+="\n";
+
+    return &st;
+
 }
