@@ -3,6 +3,7 @@
 
 #include <QTextStream>
 #include <QFile>
+#include <QVector>
 #include "trianglewindow.h"
 
 class TriangleWindow;
@@ -11,13 +12,13 @@ class FileManager
 {
 public:
     FileManager();
-    void setTriangle(TriangleWindow* tr);
+    void setTriangle(QVector<TriangleWindow*> tr);
     void save();
 
 private:
     QFile* file;
     QTextStream *flux;
-    TriangleWindow* tr;
+    QVector<TriangleWindow*> tr;
 };
 
 #endif // FILEMANAGER_H

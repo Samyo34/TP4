@@ -57,6 +57,7 @@ public:
 
     void setSeason(int );
 
+
     QString* toSave();
 
 

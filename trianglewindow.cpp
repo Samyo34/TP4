@@ -67,11 +67,13 @@ void TriangleWindow::setSeason(int i)
     else if (i==3) day = 350;
 }
 
+
 QString *TriangleWindow::toSave()
 {
     QString st="";
     st+=this->c->toSave();
-    st+=this->
+    return &st;
+
 }
 
 void TriangleWindow::updateSeason()
