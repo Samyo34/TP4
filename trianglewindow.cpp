@@ -11,7 +11,6 @@
 #include <time.h>
 #include <sys/time.h>
 #include <iostream>
-
 #include <QtCore>
 #include <QtGui>
 
@@ -68,13 +67,14 @@ void TriangleWindow::setSeason(int i)
 }
 
 
-QString *TriangleWindow::toSave()
+QString TriangleWindow::toSave()
 {
     QString st="";
-    st+=this->c->toSave();
-    return &st;
+    st+=this->c->toSave()+";"+QString::number(season) ;
+    return st;
 
 }
+
 
 void TriangleWindow::updateSeason()
 {
@@ -111,15 +111,15 @@ void TriangleWindow::initialize()
         int dist = (rand() % (int)(100 ));
         int alt = (rand() % (int)(100));
         float x = sin(
-                      ((3.14159 * 2) *
-                       angle
-                       )/360
-                      )*dist;
+                    ((3.14159 * 2) *
+                     angle
+                     )/360
+                    )*dist;
         float y = cos(
-                      ((3.14159 * 2) *
-                       angle
-                       )/360
-                      )*dist;
+                    ((3.14159 * 2) *
+                     angle
+                     )/360
+                    )*dist;
 
         particules[i].x = 0.5f;
         particules[i].y = 0.5f;
@@ -201,29 +201,29 @@ void TriangleWindow::render()
 
     switch(c->etat)
     {
-        case 0:
-            displayPoints();
-            break;
-        case 1:
-            displayLines();
-            break;
-        case 2:
-            displayTriangles();
-            break;
-        case 3:
-            displayTrianglesC();
-            break;
-        case 4:
-            displayTrianglesTexture();
-            break;
-        case 5:
+    case 0:
+        displayPoints();
+        break;
+    case 1:
+        displayLines();
+        break;
+    case 2:
+        displayTriangles();
+        break;
+    case 3:
+        displayTrianglesC();
+        break;
+    case 4:
+        displayTrianglesTexture();
+        break;
+    case 5:
 
-            displayTrianglesTexture();
-            displayLines();
-            break;
-        default:
-            displayPoints();
-            break;
+        displayTrianglesTexture();
+        displayLines();
+        break;
+    default:
+        displayPoints();
+        break;
     }
     /*if (season == 2)
         updateParticlesAut();
@@ -238,11 +238,11 @@ bool TriangleWindow::event(QEvent *event)
 {
     switch (event->type())
     {
-        case QEvent::UpdateRequest:
-            renderNow();
-            return true;
-        default:
-            return QWindow::event(event);
+    case QEvent::UpdateRequest:
+        renderNow();
+        return true;
+    default:
+        return QWindow::event(event);
     }
 }
 
@@ -251,70 +251,75 @@ void TriangleWindow::keyPressEvent(QKeyEvent *event)
     switch(event->key())
     {
 
-        case 'C':
-            if(c->anim == 0.0f)
-                c->anim = c->rotY;
-            else
-                c->anim = 0.0f;
-            break;
-        case 'Z':
-            c->ss += 0.10f;
-            break;
-        case 'S':
-            c->ss -= 0.10f;
-            break;
-        case 'A':
-            c->rotX += 1.0f;
-            break;
-        case 'E':
-            c->rotX -= 1.0f;
-            break;
-        case 'Q':
-            c->rotY += 1.0f;
-            break;
-        case 'D':
-            c->rotY -= 1.0f;
-            break;
-        case 'W':
-            c->etat ++;
-            if(c->etat > 5)
-                c->etat = 0;
-            break;
-        case 'P':
-            maj++;
-            timer->stop();
-            timer->start(maj);
-            break;
-        case 'O':
-            maj--;
-            if(maj < 1)
-                maj = 1;
-            timer->stop();
-            timer->start(maj);
-            break;
-        case 'L':
-            maj = maj - 20;
-            if(maj < 1)
-                maj = 1;
-            timer->stop();
-            timer->start(maj);
-            break;
-        case 'M':
-            maj = maj + 20;
+    case Qt::Key_F6:
+        FileManager::Instance()->save();
+        break;
 
-            timer->stop();
-            timer->start(maj);
-            break;
-        case 'X':
-            carte ++;
-            if(carte > 3)
-                carte = 1;
-            QString depth (":/heightmap-");
-            depth += QString::number(carte) ;
-            depth += ".png" ;
+    case 'C':
+        if(c->anim == 0.0f)
+            c->anim = c->rotY;
+        else
+            c->anim = 0.0f;
+        break;
+    case 'Z':
+        c->ss += 0.10f;
+        break;
+    case 'S':
+        c->ss -= 0.10f;
+        break;
+    case 'A':
+        c->rotX += 1.0f;
+        break;
+    case 'E':
+        c->rotX -= 1.0f;
+        break;
+    case 'Q':
+        c->rotY += 1.0f;
+        break;
+    case 'D':
+        c->rotY -= 1.0f;
+        break;
+    case 'W':
+        c->etat ++;
+        if(c->etat > 5)
+            c->etat = 0;
+        break;
+    case 'P':
+        maj++;
+        timer->stop();
+        timer->start(maj);
+        break;
+    case 'O':
+        maj--;
+        if(maj < 1)
+            maj = 1;
+        timer->stop();
+        timer->start(maj);
+        break;
+    case 'L':
+        maj = maj - 20;
+        if(maj < 1)
+            maj = 1;
+        timer->stop();
+        timer->start(maj);
+        break;
+    case 'M':
+        maj = maj + 20;
 
-            loadMap(depth);
-            break;
+        timer->stop();
+        timer->start(maj);
+        break;
+    case 'X':
+        carte ++;
+        if(carte > 3)
+            carte = 1;
+        QString depth (":/heightmap-");
+        depth += QString::number(carte) ;
+        depth += ".png" ;
+
+        loadMap(depth);
+        break;
+
 
 
     }
@@ -333,9 +338,9 @@ void TriangleWindow::displayPoints()
         {
             id = i*m_image.width() +j;
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
 
         }
     }
@@ -361,37 +366,37 @@ void TriangleWindow::displayTriangles()
 
             id = i*m_image.width() +j;
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
             id = i*m_image.width() +(j+1);
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
             id = (i+1)*m_image.width() +j;
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
 
 
 
             id = i*m_image.width() +(j+1);
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
             id = (i+1)*m_image.width() +j+1;
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
             id = (i+1)*m_image.width() +j;
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
         }
     }
 
@@ -411,37 +416,37 @@ void TriangleWindow::displayTrianglesC()
             glColor3f(0.0f, 1.0f, 0.0f);
             id = i*m_image.width() +j;
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
             id = i*m_image.width() +(j+1);
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
             id = (i+1)*m_image.width() +j;
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
 
 
             glColor3f(1.0f, 1.0f, 1.0f);
             id = i*m_image.width() +(j+1);
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
             id = (i+1)*m_image.width() +j+1;
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
             id = (i+1)*m_image.width() +j;
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
         }
     }
     glEnd();
@@ -461,59 +466,59 @@ void TriangleWindow::displayLines()
 
             id = i*m_image.width() +j;
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
             id = i*m_image.width() +(j+1);
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
 
             id = (i+1)*m_image.width() +j;
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
             id = i*m_image.width() +j;
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
 
             id = (i+1)*m_image.width() +j;
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
             id = i*m_image.width() +(j+1);
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
 
             id = i*m_image.width() +(j+1);
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
             id = (i+1)*m_image.width() +j+1;
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
 
             id = (i+1)*m_image.width() +j+1;
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
 
             id = (i+1)*m_image.width() +(j);
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
         }
     }
 
@@ -534,42 +539,42 @@ void TriangleWindow::displayTrianglesTexture()
             id = i*m_image.width() +j;
             displayColor(p[id].z);
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
             id = i*m_image.width() +(j+1);
             displayColor(p[id].z);
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
             id = (i+1)*m_image.width() +j;
             displayColor(p[id].z);
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
 
 
 
             id = i*m_image.width() +(j+1);
             displayColor(p[id].z);
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
             id = (i+1)*m_image.width() +j+1;
             displayColor(p[id].z);
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
             id = (i+1)*m_image.width() +j;
             displayColor(p[id].z);
             glVertex3f(
-                       p[id].x,
-                       p[id].y,
-                       p[id].z);
+                        p[id].x,
+                        p[id].y,
+                        p[id].z);
         }
     }
     glEnd();
@@ -617,15 +622,15 @@ void TriangleWindow::updateParticlesAut()
                 int dist = (rand() % (int)(100 ));
                 int alt = (rand() % (int)(100));
                 float x = sin(
-                              ((3.14159 * 2) *
-                               angle
-                               )/360
-                              )*dist;
+                            ((3.14159 * 2) *
+                             angle
+                             )/360
+                            )*dist;
                 float y = cos(
-                              ((3.14159 * 2) *
-                               angle
-                               )/360
-                              )*dist;
+                            ((3.14159 * 2) *
+                             angle
+                             )/360
+                            )*dist;
 
                 particules[id].x = 0.5f;
                 particules[id].y = 0.5f;
@@ -641,9 +646,9 @@ void TriangleWindow::updateParticlesAut()
     for(int id = 0; id < numParticules; id++)
     {
         glVertex3f(
-                   particules[id].x,
-                   particules[id].y,
-                   particules[id].z);
+                    particules[id].x,
+                    particules[id].y,
+                    particules[id].z);
 
 
     }
@@ -669,15 +674,15 @@ void TriangleWindow::updateParticlesHiv()
                 int dist = (rand() % (int)(100 ));
                 int alt = (rand() % (int)(100));
                 float x = sin(
-                              ((3.14159 * 2) *
-                               angle
-                               )/360
-                              )*dist;
+                            ((3.14159 * 2) *
+                             angle
+                             )/360
+                            )*dist;
                 float y = cos(
-                              ((3.14159 * 2) *
-                               angle
-                               )/360
-                              )*dist;
+                            ((3.14159 * 2) *
+                             angle
+                             )/360
+                            )*dist;
 
                 particules[id].x = 0.5f;
                 particules[id].y = 0.5f;
@@ -691,9 +696,9 @@ void TriangleWindow::updateParticlesHiv()
     for(int id = 0; id < numParticules; id++)
     {
         glVertex3f(
-                   particules[id].x,
-                   particules[id].y,
-                   particules[id].z);
+                    particules[id].x,
+                    particules[id].y,
+                    particules[id].z);
 
 
     }
@@ -701,20 +706,19 @@ void TriangleWindow::updateParticlesHiv()
 }
 
 
-QString *paramCamera::toSave()
+QString paramCamera::toSave()
 {
     QString st="";
-    st+=this->anim;
+    st+=QString::number(this->anim);
     st+=";";
-    st+=this->etat;
+    st+=QString::number(this->etat);
     st+=";";
-    st+=this->rotX;
+    st+=QString::number(this->rotX);
     st+=";";
-    st+=this->rotY;
+    st+=QString::number(this->rotY);
     st+=";";
-    st+=this->ss;
-    st+="\n";
+    st+=QString::number(this->ss);
 
-    return &st;
+    return st;
 
 }

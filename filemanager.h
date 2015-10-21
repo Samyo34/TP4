@@ -5,19 +5,24 @@
 #include <QFile>
 #include <QVector>
 #include "trianglewindow.h"
+#include <QDebug>
 
 class TriangleWindow;
 
 class FileManager
 {
 public:
-    FileManager();
-    void setTriangle(QVector<TriangleWindow*> tr);
+    static FileManager* Instance();
     void save();
+    void addWindow(TriangleWindow* tr);
 
 private:
+    static FileManager *file_instance;
+
+    FileManager();
+    void setTriangle(QVector<TriangleWindow*> tr);
     QFile* file;
-    QTextStream *flux;
+    QTextStream flux;
     QVector<TriangleWindow*> tr;
 };
 

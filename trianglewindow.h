@@ -22,7 +22,7 @@ public:
 
     int etat = 0;
 
-    QString* toSave();
+    QString toSave();
 
 
 
@@ -58,7 +58,8 @@ public:
     void setSeason(int );
 
 
-    QString* toSave();
+    QString toSave();
+
 
 
 public slots:

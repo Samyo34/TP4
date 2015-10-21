@@ -1,4 +1,5 @@
 #include "trianglewindow.h"
+#include "filemanager.h"
 
 #include <QtGui/QGuiApplication>
 #include <QtGui/QMatrix4x4>
@@ -31,6 +32,7 @@ int main(int argc, char **argv)
     paramCamera* c=new paramCamera();
     
     QTimer* calendar = new QTimer;
+    FileManager *manager = FileManager::Instance();
 
     TriangleWindow* window[4];
     for(int i = 0; i < 4; i++)
@@ -50,6 +52,8 @@ int main(int argc, char **argv)
         window[i]->show();
 
         calendar->connect(calendar, SIGNAL(timeout()),window[i], SLOT(updateSeason()));
+
+        manager->addWindow(window[i]);
     }
     
     calendar->start(20);

@@ -1,22 +1,33 @@
 #include "filemanager.h"
 
+FileManager *FileManager::file_instance = new FileManager();
+
 FileManager::FileManager()
 {
     this->file = new QFile("save.txt");
-    QTextStream temp(file);
-    flux = &temp;
-    flux->setCodec("UTF-8");
-}
+    file->open(QIODevice::ReadWrite);
 
+}
 void FileManager::setTriangle(QVector<TriangleWindow *> tr)
 {
     this->tr = tr;
 }
 
+FileManager *FileManager::Instance()
+{
+    return file_instance;
+}
+
 void FileManager::save()
 {
+    QTextStream temp(this->file);
     for (int i = 0; i < tr.size(); ++i) {
-       flux << tr.at(i)->toSave()<< "|";
+       temp <<tr.at(i)->toSave()<< "|";
     }
-    //TODO : faire appelle au toSave de tr
+    temp.flush();
+}
+
+void FileManager::addWindow(TriangleWindow *tr)
+{
+    this->tr.push_back(tr);
 }
