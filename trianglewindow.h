@@ -23,6 +23,7 @@ public:
     int etat = 0;
 
     QString toSave();
+    void loadParam(float anim, int etat, float rotX, float rotY, float ss);
 
 
 
@@ -59,6 +60,7 @@ public:
 
 
     QString toSave();
+    void loadWindow(float anim, int etat, float rotX,float rotY,float ss, int season, int day);
 
 
 

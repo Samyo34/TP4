@@ -65,14 +65,23 @@ void TriangleWindow::setSeason(int i)
     else if (i==2) day = 260;
     else if (i==3) day = 350;
 }
-
+/*
+ * Format de sauvegarde :  anim;etat;rotX;rotY;ss;nbSaison;nbDay
+ */
 
 QString TriangleWindow::toSave()
 {
     QString st="";
-    st+=this->c->toSave()+";"+QString::number(season) ;
+    st+=this->c->toSave()+";"+QString::number(season)+";"+QString::number(day) ;
     return st;
 
+}
+
+void TriangleWindow::loadWindow(float anim, int etat, float rotX, float rotY, float ss, int season, int day)
+{
+    this->c->loadParam(anim,etat,rotX,rotY,ss);
+    this->season = season;
+    this->day = day;
 }
 
 
@@ -254,7 +263,9 @@ void TriangleWindow::keyPressEvent(QKeyEvent *event)
     case Qt::Key_F6:
         FileManager::Instance()->save();
         break;
-
+    case Qt::Key_F5:
+        FileManager::Instance()->load();
+        break;
     case 'C':
         if(c->anim == 0.0f)
             c->anim = c->rotY;
@@ -705,7 +716,9 @@ void TriangleWindow::updateParticlesHiv()
     glEnd();
 }
 
-
+/*
+ * Format de sauvegarde :  anim;etat;rotX;rotY;ss
+ */
 QString paramCamera::toSave()
 {
     QString st="";
@@ -720,5 +733,15 @@ QString paramCamera::toSave()
     st+=QString::number(this->ss);
 
     return st;
+
+}
+
+void paramCamera::loadParam(float anim, int etat, float rotX, float rotY, float ss)
+{
+    this->anim=anim;
+    this->etat=etat;
+    this->rotX = rotX;
+    this->rotY = rotY;
+    this->ss = ss;
 
 }

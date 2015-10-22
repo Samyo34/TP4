@@ -15,6 +15,7 @@ public:
     static FileManager* Instance();
     void save();
     void addWindow(TriangleWindow* tr);
+    void load();
 
 private:
     static FileManager *file_instance;
