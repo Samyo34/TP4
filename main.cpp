@@ -35,8 +35,8 @@ int main(int argc, char **argv)
     QTimer* calendar = new QTimer;
     FileManager *manager = FileManager::Instance();
 
-    PlyLoader *ply = new PlyLoader("E:/Travail/github/TP4/summertree.ply");
-    ply->load();
+    /*PlyLoader *ply = new PlyLoader("E:/Travail/github/TP4/summertree.ply");
+    ply->load();*/
 
     TriangleWindow* window[4];
     for(int i = 0; i < 4; i++)

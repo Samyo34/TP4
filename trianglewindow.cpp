@@ -84,6 +84,16 @@ void TriangleWindow::loadWindow(float anim, int etat, float rotX, float rotY, fl
     this->day = day;
 }
 
+QVector<PlyLoader *> TriangleWindow::getMods()
+{
+    return this->mods;
+}
+
+void TriangleWindow::addMods(PlyLoader *ply)
+{
+    this->mods.push_back(ply);
+}
+
 
 void TriangleWindow::updateSeason()
 {
@@ -114,6 +124,7 @@ void TriangleWindow::initialize()
     particules = new point[numParticules];
 
 
+
     for(int i = 0; i < numParticules; i++)
     {
         int angle =minP + (rand() % (int)(maxP - minP + 1));
@@ -134,6 +145,10 @@ void TriangleWindow::initialize()
         particules[i].y = 0.5f;
         particules[i].z = (float)(alt)/100;
     }
+
+     PlyLoader *l = new PlyLoader("E:/Travail/github/TP4/summertree.ply");
+     l->load();
+     addMods(l);
 
 }
 
@@ -238,6 +253,10 @@ void TriangleWindow::render()
         updateParticlesAut();
     else if (season == 3)
         updateParticlesHiv();*/
+
+   for(int i=0;i<mods.size();i++){
+        mods.at(i)->draw();
+    }
 
     m_frame++;
 

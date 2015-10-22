@@ -3,14 +3,17 @@
 
 #include "openglwindow.h"
 #include "filemanager.h"
+#include "plyloader.h"
 #include <QString>
+
+/*struct point
+{
+    float x, y ,z;
+};*/
 
 class FileManager;
 
-struct point
-{
-    float x, y ,z;
-};
+
 
 class paramCamera
 {
@@ -61,7 +64,8 @@ public:
 
     QString toSave();
     void loadWindow(float anim, int etat, float rotX,float rotY,float ss, int season, int day);
-
+    QVector<PlyLoader*> getMods();
+    void addMods(PlyLoader* ply);
 
 
 public slots:
@@ -82,6 +86,7 @@ private:
 
     QTimer *timer;
     QTimer *timerFPS;
+    QVector<PlyLoader* > mods;
 };
 
 

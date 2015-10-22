@@ -1,13 +1,19 @@
 #ifndef PLYLOADER_H
 #define PLYLOADER_H
 
+#include <QtCore>
+#include <QtGui>
+#include <QtGui/QOpenGLFunctions>
+
 #include <QVector>
 #include <QTextStream>
 #include <QString>
 #include <QFile>
 #include <QDebug>
-#include "trianglewindow.h"
 
+struct point{
+    float x,y,z;
+};
 
 class PlyLoader
 {

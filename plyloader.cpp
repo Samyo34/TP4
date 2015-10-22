@@ -5,6 +5,11 @@
 PlyLoader::PlyLoader(QString fileName)
 {
     this->file = new QFile(fileName);
+    this->x=0;
+    this->y=0;
+    this->z=0;
+    this->size = 1;
+    this->ori = 0;
 }
 
 void PlyLoader::load()
@@ -20,7 +25,7 @@ void PlyLoader::load()
         return;
     }
 
-    // Lecture jusqu'au nombre de vertices
+    // Lecture du nombre de vertices
     int nbVertices =0;
     int cpt =0;
     while (nbVertices == 0) {
@@ -38,11 +43,12 @@ void PlyLoader::load()
         }
         cpt++;
     }
-    qDebug()<<list.at(cpt);
 
     // On avance jusqu'à la fin du header
     while(list.at(cpt++).contains("end_header") != 0);
-     QStringList li;
+
+
+    QStringList li;
     // Lectures des vertices
     for (int i = cpt+1; i < cpt + nbVertices +1 ; ++i) {
         li = list.at(i).split(" ");
@@ -58,12 +64,14 @@ void PlyLoader::load()
         q.z = li.at(5).toFloat();
         vertices.push_back(q);
     }
+
+
     int val = cpt + nbVertices + 1;
     // Lecture des faces
     for (int i = val; i <val + nbFaces; ++i) {
         QVector<int> face;
         li = list.at(i).split(" ");
-        for (int j = 1; j < li.at(0).toInt(); ++j) {
+        for (int j = 0; j < li.size(); ++j) {
             face.push_back(li.at(j).toInt());
         }
         faces.push_back(face);
@@ -74,5 +82,28 @@ void PlyLoader::load()
 
 void PlyLoader::draw()
 {
+    glPushMatrix();
+       glTranslatef(this->x, this->y, this->z);
+       glRotatef(this->ori, 0, 0, 1);
+       glColor3f(1, 1, 1);
 
+   #pragma omp for schedule(dynamic)
+       for (int i = 0; i < faces.size(); ++i) {
+           QVector<int> temp = faces.at(i);
+           if(temp.at(0) == 3) {
+               glBegin(GL_TRIANGLES);
+           } else {
+               glBegin(GL_QUADS);
+           }
+
+           for (int j = 1; j < temp.size(); ++j) {
+               point p = vertices.at(temp.at(j) * 2);
+               point n = vertices.at(temp.at(j) * 2 + 1);
+               glNormal3f(n.y, n.z, n.x);
+               glVertex3f(p.x * size, p.y * size, p.z * size);
+           }
+
+           glEnd();
+       }
+       glPopMatrix();
 }
