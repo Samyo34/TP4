@@ -11,10 +11,12 @@ INCLUDEPATH += /opt/local/include
 SOURCES += $$PWD/openglwindow.cpp \
     main.cpp \
     trianglewindow.cpp \
-    filemanager.cpp
+    filemanager.cpp \
+    plyloader.cpp
 HEADERS += $$PWD/openglwindow.h \
     trianglewindow.h \
-    filemanager.h
+    filemanager.h \
+    plyloader.h
 
 target.path = .
 
