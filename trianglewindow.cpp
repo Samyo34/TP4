@@ -119,6 +119,23 @@ void TriangleWindow::initialize()
     glOrtho(-1.0, 1.0, -1.0, 1.0, -100.0, 100.0);
 
 
+    /* Lumière */
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+
+    // Create light components
+    GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+    GLfloat diffuseLight[] = { 0.8f, 0.8f, 0.8, 1.0f };
+    GLfloat specularLight[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+    GLfloat position[] = { -0.5f, 0.5f, -4.0f, 0.0f };
+
+    // Assign created components to GL_LIGHT0
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
+    glLightfv(GL_LIGHT0, GL_POSITION, position);
+
+
     loadMap(":/heightmap-1.png");
 
     particules = new point[numParticules];
@@ -146,9 +163,9 @@ void TriangleWindow::initialize()
         particules[i].z = (float)(alt)/100;
     }
 
-     PlyLoader *l = new PlyLoader(":/summertree.ply");
-     l->load();
-     addMods(l);
+    PlyLoader *l = new PlyLoader(":/summertree.ply");
+    l->load();
+    addMods(l);
 
 }
 
@@ -223,6 +240,7 @@ void TriangleWindow::render()
 
 
 
+    glNormal3f(0,0,-1);
     switch(c->etat)
     {
     case 0:
@@ -254,7 +272,7 @@ void TriangleWindow::render()
     else if (season == 3)
         updateParticlesHiv();*/
 
-   for(int i=0;i<mods.size();i++){
+    for(int i=0;i<mods.size();i++){
         mods.at(i)->draw();
     }
 
