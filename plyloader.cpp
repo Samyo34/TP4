@@ -8,7 +8,7 @@ PlyLoader::PlyLoader(QString fileName)
     this->x=0;
     this->y=0;
     this->z=0;
-    this->size = 1;
+    this->size = 0.1;
     this->ori = 0;
 }
 
@@ -21,7 +21,7 @@ void PlyLoader::load()
 
     // Verifiaction du format
     if(!list.at(0).contains("ply")){
-        qDebug()<<"Erreur : format du fichier '"<<this->file->fileName()<<"' incorect";
+        qDebug()<<"Erreur : format du fichier '"<<this->file->fileName()<<"' incorrect";
         return;
     }
 
@@ -82,10 +82,10 @@ void PlyLoader::load()
 
 void PlyLoader::draw()
 {
-    glPushMatrix();
+    /*glPushMatrix();
        glTranslatef(this->x, this->y, this->z);
-       glRotatef(this->ori, 0, 0, 1);
-       glColor3f(1, 1, 1);
+       glRotatef(this->ori, 0, 0, 1);*/
+       glColor3f(0, 1, 0);
 
    #pragma omp for schedule(dynamic)
        for (int i = 0; i < faces.size(); ++i) {
@@ -105,5 +105,6 @@ void PlyLoader::draw()
 
            glEnd();
        }
-       glPopMatrix();
+
+     //  glPopMatrix();
 }

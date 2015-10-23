@@ -146,7 +146,7 @@ void TriangleWindow::initialize()
         particules[i].z = (float)(alt)/100;
     }
 
-     PlyLoader *l = new PlyLoader("E:/Travail/github/TP4/summertree.ply");
+     PlyLoader *l = new PlyLoader(":/summertree.ply");
      l->load();
      addMods(l);
 
